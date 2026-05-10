@@ -60,3 +60,4 @@
 #define USE_ADC
 #define VBAT_ADC_PIN            PC0 
 #define CURRENT_METER_ADC_PIN   PC1
+// Force build start
