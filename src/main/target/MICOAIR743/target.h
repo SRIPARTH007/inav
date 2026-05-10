@@ -1,17 +1,24 @@
 #pragma once
 
+// *************** GPIO PORT UNLOCKS **********************
+// Necessary to prevent "No pins are defined" error
+#define TARGET_IO_PORTA 0xFFFF
+#define TARGET_IO_PORTB 0xFFFF
+#define TARGET_IO_PORTC 0xFFFF
+#define TARGET_IO_PORTD 0xFFFF
+#define TARGET_IO_PORTE 0xFFFF
+#define TARGET_IO_PORTH 0xFFFF
+
 #define TARGET_BOARD_IDENTIFIER "M743"
 #define USBD_PRODUCT_STRING     "KSPR_H743_V4"
 
 // *************** 48MHz CLOCK CONFIGURATION **********************
-// Solves the "HSE_VALUE redefined" error
 #ifdef HSE_VALUE
 #undef HSE_VALUE
 #endif
 #define HSE_VALUE       48000000
 
 // *************** LED **********************
-// Wrapped in IO_TAG for H7 compatibility
 #define LED0                    IO_TAG(PB11)
 #define LED1                    IO_TAG(PE10)
 #define LED2                    IO_TAG(PE15)
@@ -21,7 +28,6 @@
 #define USE_SPI_DEVICE_2
 #define USE_SPI_DEVICE_6
 
-// Primary IMU: ICM42688 on SPI6
 #define SPI6_SCK_PIN            PA5
 #define SPI6_MISO_PIN           PA6
 #define SPI6_MOSI_PIN           PA7
@@ -29,7 +35,6 @@
 #define ICM42688_SPI_BUS        BUS_SPI6
 #define ICM42688_CS_PIN         PA15
 
-// Secondary IMU: BMI088 on SPI2
 #define SPI2_SCK_PIN            PB13
 #define SPI2_MISO_PIN           PB14
 #define SPI2_MOSI_PIN           PB15
@@ -43,12 +48,9 @@
 #define USE_I2C_DEVICE_1
 #define USE_I2C_DEVICE_4
 
-// Baros on I2C4 (PB6, PB7)
-// Explicit IO_TAG prevents the "PB7 is not supported" error
 #define I2C4_SCL                IO_TAG(PB6)
 #define I2C4_SDA                IO_TAG(PB7)
 
-// Magnetometer on I2C1 (PB8, PB9)
 #define I2C1_SCL                IO_TAG(PB8)
 #define I2C1_SDA                IO_TAG(PB9)
 
@@ -65,4 +67,4 @@
 #define VBAT_ADC_PIN            PC0 
 #define CURRENT_METER_ADC_PIN   PC1
 
-// Force build start 4
+// Force build start 5
