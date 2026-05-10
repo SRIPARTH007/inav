@@ -5,6 +5,9 @@
 
 // *************** 48MHz CLOCK CONFIGURATION  **********************
 // Essential: Schematic shows 48.000MHz Crystal
+#ifdef HSE_VALUE
+#undef HSE_VALUE
+#endif
 #define HSE_VALUE       48000000
 
 // *************** LED **********************
