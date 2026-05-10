@@ -1,12 +1,14 @@
 #include <stdint.h>
 #include "platform.h"
+
 #include "drivers/bus.h"
 #include "drivers/io.h"
-#include "drivers/pwm_mapping.h"
 #include "drivers/timer.h"
-#include "drivers/system_stm32h7xx.h"
+#include "drivers/pwm_mapping.h"
+#include "drivers/nvic.h"
+#include "drivers/system.h"
 
-// Timer Hardware Map from Schematic Page 4/4
+// Timer Hardware Map
 timerHardware_t timerHardware[] = {
     DEF_TIM(TIM8,  CH1, PC6,  TIM_USE_OUTPUT_AUTO, 0, 0), // Motor 1
     DEF_TIM(TIM8,  CH2, PC7,  TIM_USE_OUTPUT_AUTO, 0, 1), // Motor 2
@@ -20,7 +22,7 @@ timerHardware_t timerHardware[] = {
 
 const int timerHardwareCount = sizeof(timerHardware) / sizeof(timerHardware[0]);
 
-// OVERRIDE: 48MHz Clock Configuration
+// Override for 48MHz Crystal
 void targetSystemClockConfig(void) {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
@@ -34,12 +36,12 @@ void targetSystemClockConfig(void) {
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     
-    // Divide 48MHz by 48 to get the 1MHz PLL input
+    // Divider for 48MHz crystal
     RCC_OscInitStruct.PLL.PLLM = 48; 
     
     RCC_OscInitStruct.PLL.PLLN = 480;
-    RCC_OscInitStruct.PLL.PLLP = 2;   // CPU at 480MHz
-    RCC_OscInitStruct.PLL.PLLQ = 20;  // USB at 48MHz
+    RCC_OscInitStruct.PLL.PLLP = 2;
+    RCC_OscInitStruct.PLL.PLLQ = 20;
     RCC_OscInitStruct.PLL.PLLR = 2;
     RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
     RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_0;
