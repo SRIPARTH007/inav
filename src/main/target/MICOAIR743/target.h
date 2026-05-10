@@ -3,7 +3,7 @@
 #define TARGET_BOARD_IDENTIFIER "M743"
 #define USBD_PRODUCT_STRING     "KSPR_H743_V4"
 
-// *************** 48MHz CLOCK CONFIGURATION **********************
+// *************** 48MHz CLOCK CONFIGURATION  **********************
 // Essential: Schematic shows 48.000MHz Crystal
 #define HSE_VALUE       48000000
 
