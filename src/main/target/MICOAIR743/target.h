@@ -1,7 +1,7 @@
 /*
  * Target: KSPR_H743_V4 (Based on MICOAIR743)
  * Author: KSPR
- * Features: Dual IMU (BMI088 + ICM42688), 48MHz HSE, Custom I2C/UART mapping
+ * Features: Dual IMU, 48MHz HSE, Corrected UART4 AF
  */
 
 #pragma once
@@ -17,6 +17,10 @@
 #define TARGET_BOARD_IDENTIFIER "M743"
 #define USBD_PRODUCT_STRING     "KSPR_H743_V4"
 
+// *** Added for Clock/HAL Support ***
+#define USE_HAL_DRIVER
+#define USE_HSE_PLL
+
 // *************** SERIAL / UART ********************
 #define USE_UART1
 #define UART1_TX_PIN            PA9
@@ -26,7 +30,6 @@
 #define UART3_TX_PIN            PD8
 #define UART3_RX_PIN            PD9
 
-// FIXED: PC10/PC11 are valid UART4 pins for H743.
 #define USE_UART4
 #define UART4_TX_PIN            PC10
 #define UART4_RX_PIN            PC11
@@ -91,4 +94,6 @@
 #define VBAT_ADC_PIN            PC0 
 #define CURRENT_METER_ADC_PIN   PC1
 
-// Force build iteration 10 - Corrected UART4 AF Mapping and Header Priority
+// Force build iteration 12 - Finalized HAL/PLL definitions
+
+
