@@ -4,16 +4,17 @@
 #define USBD_PRODUCT_STRING     "KSPR_H743_V4"
 
 // *************** 48MHz CLOCK CONFIGURATION **********************
-// Fixed: Using undef/def to prevent "redefined" error
+// Solves the "HSE_VALUE redefined" error
 #ifdef HSE_VALUE
 #undef HSE_VALUE
 #endif
 #define HSE_VALUE       48000000
 
 // *************** LED **********************
-#define LED0                    PB11  
-#define LED1                    PE10  
-#define LED2                    PE15  
+// Wrapped in IO_TAG for H7 compatibility
+#define LED0                    IO_TAG(PB11)
+#define LED1                    IO_TAG(PE10)
+#define LED2                    IO_TAG(PE15)
 
 // *************** SPI DEVICES **********************
 #define USE_SPI
@@ -38,12 +39,12 @@
 #define BMI088_ACC_CS_PIN       PB0
 
 // *************** I2C DEVICES **********************
-// Fixed: Wrapped pins in IO_TAG to prevent macro expansion errors
 #define USE_I2C
 #define USE_I2C_DEVICE_1
 #define USE_I2C_DEVICE_4
 
 // Baros on I2C4 (PB6, PB7)
+// Explicit IO_TAG prevents the "PB7 is not supported" error
 #define I2C4_SCL                IO_TAG(PB6)
 #define I2C4_SDA                IO_TAG(PB7)
 
@@ -63,4 +64,5 @@
 #define USE_ADC
 #define VBAT_ADC_PIN            PC0 
 #define CURRENT_METER_ADC_PIN   PC1
-// Force build start
+
+// Force build start 4
