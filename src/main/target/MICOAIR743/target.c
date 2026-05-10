@@ -1,18 +1,19 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+// This MUST come before platform.h to define the HAL macros
+#include "stm32h7xx_hal.h"
+
 #include "platform.h"
 #include "drivers/system.h"
 #include "drivers/serial.h"
-
-// Added this to fix the "implicit declaration" error
-#include "stm32h7xx_hal.h"
 
 void targetSystemClockConfig(void)
 {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
+    // Fix for the implicit declaration error
     __HAL_RCC_PWR_CLK_ENABLE();
     __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
@@ -23,8 +24,7 @@ void targetSystemClockConfig(void)
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     
-    // HSE is 48MHz. PLLM=48 brings it to 1MHz for the PLL
-    RCC_OscInitStruct.PLL.PLLM = 48; 
+    RCC_OscInitStruct.PLL.PLLM = 48; // 48MHz / 48 = 1MHz ref
     RCC_OscInitStruct.PLL.PLLN = 400;
     RCC_OscInitStruct.PLL.PLLP = 2;
     RCC_OscInitStruct.PLL.PLLQ = 4;
@@ -39,7 +39,6 @@ void targetSystemClockConfig(void)
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
     RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
     
-    // Fixed these names to match iNav/STM32H7 HAL
     RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
     RCC_ClkInitStruct.APB3CLKDivider = RCC_APB3_DIV2;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV2;
