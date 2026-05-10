@@ -8,21 +8,18 @@
 #include "drivers/nvic.h"
 #include "drivers/system.h"
 
-// Timer Hardware Map
+// Timer Hardware Map for Motor Outputs
+// Standard MICOAIR743 mapping for Motors 1-4
 timerHardware_t timerHardware[] = {
     DEF_TIM(TIM8,  CH1, PC6,  TIM_USE_OUTPUT_AUTO, 0, 0), // Motor 1
     DEF_TIM(TIM8,  CH2, PC7,  TIM_USE_OUTPUT_AUTO, 0, 1), // Motor 2
     DEF_TIM(TIM8,  CH3, PC8,  TIM_USE_OUTPUT_AUTO, 0, 2), // Motor 3
     DEF_TIM(TIM8,  CH4, PC9,  TIM_USE_OUTPUT_AUTO, 0, 3), // Motor 4
-    DEF_TIM(TIM1,  CH1, PE9,  TIM_USE_OUTPUT_AUTO, 0, 4), // Servo 1
-    DEF_TIM(TIM1,  CH2, PE11, TIM_USE_OUTPUT_AUTO, 0, 5), // Servo 2
-    DEF_TIM(TIM1,  CH3, PE13, TIM_USE_OUTPUT_AUTO, 0, 6), // Servo 3
-    DEF_TIM(TIM1,  CH4, PE14, TIM_USE_OUTPUT_AUTO, 0, 7), // Servo 4
 };
 
 const int timerHardwareCount = sizeof(timerHardware) / sizeof(timerHardware[0]);
 
-// Override for 48MHz Crystal
+// Override for 48MHz Crystal for MICOAIR743
 void targetSystemClockConfig(void) {
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
@@ -36,8 +33,9 @@ void targetSystemClockConfig(void) {
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     
-    // Divider for 48MHz crystal
+    // --- MANDATORY 48MHz DIVIDER ---
     RCC_OscInitStruct.PLL.PLLM = 48; 
+    // -------------------------------
     
     RCC_OscInitStruct.PLL.PLLN = 480;
     RCC_OscInitStruct.PLL.PLLP = 2;
