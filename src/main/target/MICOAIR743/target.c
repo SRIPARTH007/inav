@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-// This MUST come before platform.h to define the HAL macros
+// Must be first to define H7 macros
 #include "stm32h7xx_hal.h"
 
 #include "platform.h"
@@ -13,7 +13,6 @@ void targetSystemClockConfig(void)
     RCC_OscInitTypeDef RCC_OscInitStruct = {0};
     RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-    // Fix for the implicit declaration error
     __HAL_RCC_PWR_CLK_ENABLE();
     __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
@@ -24,7 +23,7 @@ void targetSystemClockConfig(void)
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
     
-    RCC_OscInitStruct.PLL.PLLM = 48; // 48MHz / 48 = 1MHz ref
+    RCC_OscInitStruct.PLL.PLLM = 48; 
     RCC_OscInitStruct.PLL.PLLN = 400;
     RCC_OscInitStruct.PLL.PLLP = 2;
     RCC_OscInitStruct.PLL.PLLQ = 4;
