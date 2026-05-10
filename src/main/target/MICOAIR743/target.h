@@ -1,7 +1,6 @@
 #pragma once
 
-// *************** GPIO PORT UNLOCKS **********************
-// Necessary to prevent "No pins are defined" error
+// 1. UNLOCK ALL GPIO PORTS
 #define TARGET_IO_PORTA 0xFFFF
 #define TARGET_IO_PORTB 0xFFFF
 #define TARGET_IO_PORTC 0xFFFF
@@ -12,18 +11,18 @@
 #define TARGET_BOARD_IDENTIFIER "M743"
 #define USBD_PRODUCT_STRING     "KSPR_H743_V4"
 
-// *************** 48MHz CLOCK CONFIGURATION **********************
+// 2. CLOCK CONFIG (48MHz Crystal)
 #ifdef HSE_VALUE
 #undef HSE_VALUE
 #endif
 #define HSE_VALUE       48000000
 
-// *************** LED **********************
-#define LED0                    IO_TAG(PB11)
-#define LED1                    IO_TAG(PE10)
-#define LED2                    IO_TAG(PE15)
+// 3. LEDS (Direct Pin Names to avoid macro loops)
+#define LED0                    PB11
+#define LED1                    PE10
+#define LED2                    PE15
 
-// *************** SPI DEVICES **********************
+// 4. SPI CONFIG
 #define USE_SPI
 #define USE_SPI_DEVICE_2
 #define USE_SPI_DEVICE_6
@@ -43,16 +42,18 @@
 #define BMI088_GYRO_CS_PIN      PB12
 #define BMI088_ACC_CS_PIN       PB0
 
-// *************** I2C DEVICES **********************
+// 5. I2C CONFIG (The Fix: Using Raw Pins + Clearer Bus Definitions)
 #define USE_I2C
 #define USE_I2C_DEVICE_1
 #define USE_I2C_DEVICE_4
 
-#define I2C4_SCL                IO_TAG(PB6)
-#define I2C4_SDA                IO_TAG(PB7)
+// Force I2C1 (Mag)
+#define I2C1_SCL                PB8
+#define I2C1_SDA                PB9
 
-#define I2C1_SCL                IO_TAG(PB8)
-#define I2C1_SDA                IO_TAG(PB9)
+// Force I2C4 (Baro)
+#define I2C4_SCL                PB6
+#define I2C4_SDA                PB7
 
 #define USE_BARO
 #define USE_BARO_BMP388
@@ -62,9 +63,9 @@
 #define USE_MAG_BMM350
 #define MAG_I2C_BUS             BUS_I2C1
 
-// *************** ADC *****************************
+// 6. ADC
 #define USE_ADC
 #define VBAT_ADC_PIN            PC0 
 #define CURRENT_METER_ADC_PIN   PC1
 
-// Force build start 5
+// Force build start 6 - Clean Macro State
